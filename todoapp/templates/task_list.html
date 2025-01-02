@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="list_form">
+    <h1>Todo Lists</h1>
+    <hr>
+    <form action="{% url 'task_list' %}" method="POST">
+        {% csrf_token %}
+        <p>Tasks</p>
+        <input type="text" id="inputField" name="title" placeholder="Enter task title">
+        <button type="submit" name="add_task" class="add">
+            <i class="fas fa-plus"></i>
+        </button>
+    </form>
+    <hr>
+    <p>Tasks List</p>
+   
+        {% for task in tasks %}
+          <div>
+              <input type="checkbox" class="check" name="check" id="{{ task.id }}"/>
+              <label for="{{ task.id }}">{{ task.title }}</label>
+            
+            <form action="{% url 'task_list' %}" method="POST" style="display: inline;">
+                {% csrf_token %}
+                <input type="hidden" name="task_id" value="{{ task.id }}">
+                <input type="text" name="title" class="titlein" value="{{ task.title }}" placeholder="Edit task">
+                <button type="submit" name="update_task"  class="edit edit_b">
+                    <i class="fas fa-edit edit_b"></i>
+                </button>
+                <button type="button" name="edit_task" class="edit1 edit_a">
+                  <i class="fas fa-edit"></i>
+                </button>
+            </form>
+            <form action="{% url 'task_list' %}" method="POST" style="display: inline;">
+                {% csrf_token %}
+                <input type="hidden" name="task_id" value="{{ task.id }}">
+                <button type="submit" name="delete_task" class="del">
+                    <i class="fas fa-trash-alt"></i>
+                </button><br>
+            </form>
+          </div>
+        {% endfor %}
+        
+    
+</div>
+{% endblock %}
